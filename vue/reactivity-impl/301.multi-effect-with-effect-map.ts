@@ -7,7 +7,7 @@ const effectsMap: Record<ProductKey, Set<Function>> = {
     quantity: new Set()
 };
 
-let totalPrice;
+let totalPrice: number | undefined;
 function priceEffect() {
     totalPrice = toy.price * toy.quantity;
 }
@@ -15,7 +15,7 @@ function priceEffect() {
 effectsMap.price.add(priceEffect);
 effectsMap.quantity.add(priceEffect);
 
-let totalCost;
+let totalCost: number | undefined;
 function costEffect() {
     totalCost = toy.cost * toy.quantity;
 }

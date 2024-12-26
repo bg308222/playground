@@ -2,7 +2,7 @@
 
 const toy = { price: 10, quantity: 100 };
 
-let totalPrice;
+let totalPrice: number | undefined;
 function effect() {
     totalPrice = toy.price * toy.quantity;
 }

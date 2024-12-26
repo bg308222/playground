@@ -16,14 +16,14 @@ function trigger(key: ProductKey) {
 }
 
 
-let totalPrice;
+let totalPrice: number | undefined;
 function priceEffect() {
     totalPrice = toy.price * toy.quantity;
 }
 track("price", priceEffect);
 track("quantity", priceEffect);
 
-let totalCost;
+let totalCost: number | undefined;
 function costEffect() {
     totalCost = toy.cost * toy.quantity;
 }

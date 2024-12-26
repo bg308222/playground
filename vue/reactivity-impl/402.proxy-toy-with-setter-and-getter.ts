@@ -30,7 +30,7 @@ function trigger(key: ProductKey) {
 }
 
 
-let totalPrice;
+let totalPrice: number | undefined;
 activeEffect = priceEffect;
 priceEffect();
 activeEffect = null;
@@ -38,7 +38,7 @@ function priceEffect() {
     totalPrice = toy.price * toy.quantity;
 }
 
-let totalCost;
+let totalCost: number | undefined;
 activeEffect = costEffect;
 costEffect();
 activeEffect = null;

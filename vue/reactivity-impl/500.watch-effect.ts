@@ -36,12 +36,12 @@ function trigger(key: ProductKey) {
 }
 
 
-let totalPrice;
+let totalPrice: number | undefined;
 watchEffect(() => {
     totalPrice = toy.price * toy.quantity;
 })
 
-let totalCost;
+let totalCost: number | undefined;
 watchEffect(() => {
     totalCost = toy.cost * toy.quantity;
 })

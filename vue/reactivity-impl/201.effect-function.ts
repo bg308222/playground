@@ -1,7 +1,7 @@
 ﻿import "./common";
 
 let a = 1, b = 2;
-let sum;
+let sum: number | undefined;
 function effect() {
     sum = a + b;
 }
