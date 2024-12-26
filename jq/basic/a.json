@@ -1,0 +1,30 @@
+﻿{
+    "a": 1,
+    "b": 2,
+    "c": true,
+    "d": {
+        "aa": [1, 2, 3],
+        "bb": {
+            "aaa": 1,
+            "bbb": 2
+        }
+    },
+    "e": [
+        {
+            "key": "hello",
+            "value": "world"
+        },
+        {
+            "key": "foo",
+            "value": "bar"
+        },
+        {
+            "key": "abby",
+            "value": "eden"
+        },
+        {
+            "key": "emily",
+            "value": "jane"
+        }
+    ]
+}

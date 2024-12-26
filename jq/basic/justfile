@@ -1,0 +1,15 @@
+﻿default:
+    jq '.a' a.json
+    jq '.a, .d' a.json
+    jq '{a, d}' a.json
+    jq '{x: .a, y: .d}' a.json
+    jq -n '{x: 1, y: 2}'
+    jq '.e | .[]' a.json
+    jq '.e | .[] | select(.value=="eden" or .value=="jane") | .' a.json
+    jq '.e | .[] | select(.value=="eden" or .value=="jane") | .' a.json | jq -s
+    jq '.d.aa | length' a.json
+    jq '.e | map("hello" + .key) | .[] | length' a.json
+    jq '.e | map("hello" + .key) | .[] | select(. | length > 8)' a.json
+    jq -e -n 'true == true'
+    jq -n '.a = 1, .b = 2'
+    jq -n '.a = 1 | .b = 2'

@@ -1,0 +1,17 @@
+﻿@_default:
+    just --list
+
+@up:
+    docker compose up -d
+
+@down:
+    docker compose down
+
+@ps:
+    docker compose ps
+
+@exec svr *cmd:
+    docker compose exec {{svr}} {{cmd}}
+
+@execi svr:
+    docker compose exec -it {{svr}} bash

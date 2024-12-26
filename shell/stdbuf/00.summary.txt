@@ -1,0 +1,5 @@
+﻿1. Echo is line-buffered.
+2. Sed and grep are buffered by default but can be set to line-buffered.
+
+# https://blog.gtwang.org/linux/linux-standard-streams-buffer/
+# https://blog.csdn.net/xiaoyu_wu/article/details/119273491
