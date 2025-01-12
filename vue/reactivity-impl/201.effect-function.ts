@@ -1,15 +1,14 @@
-﻿import "./common";
+﻿export {};
 
-let a = 1, b = 2;
-let sum: number | undefined;
+const toy = { price: 10, quantity: 100 };
+
+let totalPrice: number | undefined;
 function effect() {
-    sum = a + b;
+    totalPrice = toy.price * toy.quantity;
 }
-
-a = 2;
 effect();
-console.log({a, b, sum});
+console.log({ toy, totalPrice }); // 1000
 
-b = 7;
+toy.price = 20;
 effect();
-console.log({a, b, sum});
+console.log({ toy, totalPrice }); // 2000

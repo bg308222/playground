@@ -7,7 +7,19 @@ const effectsMap: Record<string, Set<Function>> = {
     quantity: new Set()
 };
 
-const toy = reactive({ price: 10, cost: 20, quantity: 100 });
+const toy = new Proxy({ price: 10, cost: 20, quantity: 100 }, {
+    get(target, key) {
+        if (activeEffect !== null) {
+            track(key as string, activeEffect);
+        }
+        return target[key];
+    },
+    set(target, key, newValue) {
+        target[key] = newValue;
+        trigger(key as string);
+        return true;
+    }
+});
 
 watchEffect(() => {
     const totalPrice = toy.price * toy.quantity;
@@ -36,20 +48,4 @@ function watchEffect(effect: Function) {
     activeEffect = effect;
     effect();
     activeEffect = null;
-}
-
-function reactive<T extends object>(object: T) {
-    return new Proxy(object, {
-        get(target, key) {
-            if (activeEffect !== null) {
-                track(key as string, activeEffect);
-            }
-            return target[key];
-        },
-        set(target, key, value) {
-            target[key] = value;
-            trigger(key as string);
-            return true;
-        }
-    })
 }

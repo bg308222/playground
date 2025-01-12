@@ -1,10 +1,12 @@
-﻿import "./common";
+﻿export {};
 
-let a = 1, b = 2;
-let sum = a + b;
+const toy = { price: 10, quantity: 100 };
 
-console.log({a, b, sum});
+let totalPrice: number | undefined;
+totalPrice = toy.price * toy.quantity;
 
-a = 2;
-sum = a + b;
-console.log({a, b, sum});
+console.log({ toy, totalPrice }); // 1000
+
+toy.price = 20;
+totalPrice = toy.price * toy.quantity;
+console.log({ toy, totalPrice }); // 2000

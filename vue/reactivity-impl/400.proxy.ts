@@ -1,35 +1,20 @@
-﻿import "./common";
+﻿export {};
 
-const obj = new Proxy({ x: "x0"}, {
+const obj = new Proxy({ x: 1}, {
     get(target, key) {
-        console.log("getter: ", {
-            target,
-            key,
-        });
-        return `${target[key]} after getter`;
+        console.log("Through getter");
+        return target[key];
     },
     set(target, key, newValue) {
-        console.log("setter: ", {
-            target,
-            key,
-            newValue
-        });
-        target[key] = `${newValue} after setter`;
-        return true
+        console.log("Through setter");
+        target[key] = newValue;
+        return true;
     },
 });
 
-console.log("1: ", obj.x);
-console.log("=====")
+console.log("===== Testing getter =====");
+console.log("Result: ", obj.x);
 
-obj.x = "x1";
-console.log("=====")
-
-console.log("2: ", obj.x);
-console.log("=====")
-
-let { x } = obj;
-console.log("3: ", x);
-
-x = "x2";
-console.log("4: ", x);
+console.log("===== Testing setter =====");
+obj.x = 2;
+console.log("Result: ", obj.x);

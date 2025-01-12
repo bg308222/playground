@@ -6,7 +6,17 @@ const effectsMap: Record<string, Set<Function>> = {
     quantity: new Set()
 };
 
-const toy = { price: 10, cost: 20, quantity: 100 };
+const toy = new Proxy({ price: 10, cost: 20, quantity: 100 }, {
+    get(target, key) {
+        track(key as string, function() {});
+        return target[key];
+    },
+    set(target, key, newValue) {
+        target[key] = newValue;
+        trigger(key as string);
+        return true;
+    }
+});
 
 let totalPrice: number | undefined;
 function priceEffect() {
@@ -14,8 +24,6 @@ function priceEffect() {
 }
 priceEffect();
 console.log("1. priceEffect: ", totalPrice); // 1000
-track("price", priceEffect);
-track("quantity", priceEffect);
 
 let totalCost: number | undefined;
 function costEffect() {
@@ -23,16 +31,12 @@ function costEffect() {
 }
 costEffect();
 console.log("1. costEffect: ", totalCost); // 2000
-track("cost", costEffect);
-track("quantity", costEffect);
 
 toy.price = 30;
-trigger("price");
 console.log("2. priceEffect: ", totalPrice); // 3000
 console.log("2. costEffect: ", totalCost); // 2000
 
 toy.quantity *= 10;
-trigger("quantity");
 console.log("3. priceEffect: ", totalPrice); // 30000
 console.log("3. costEffect: ", totalCost); // 20000
 
