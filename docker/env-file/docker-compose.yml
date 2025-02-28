@@ -1,0 +1,19 @@
+﻿include:
+  - sub-service/docker-compose.yml
+services:
+  node:
+    image: node:18
+    volumes:
+      - ./a:/app/a
+      - public:/app/public
+    entrypoint: sleep
+    command: infinity
+    networks:
+      - main-net
+    environment:
+      - aaaa=${TEST}
+volumes:
+  public:
+networks:
+  main-net:
+    driver: bridge
