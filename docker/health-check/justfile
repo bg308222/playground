@@ -1,0 +1,17 @@
+﻿@_default:
+    just --list
+
+up:
+    docker compose up -d
+    just ps
+
+down:
+    docker compose down --remove-orphans
+
+exec service:
+    docker compose exec {{service}} bash
+
+ps:
+    docker compose ps
+
+test:

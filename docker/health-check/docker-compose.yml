@@ -1,0 +1,22 @@
+﻿services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      SA_PASSWORD: "123qwe!@#QWE"
+      ACCEPT_EULA: "Y"
+      PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/mssql-tools/bin"
+    healthcheck:
+      test: [ "CMD", "sqlcmd", "-S", "localhost", "-U", "sa", "-P", "123qwe!@#QWEa", "-Q", "SELECT 1" ]
+      interval: 1s
+      timeout: 1s
+      retries: 5
+  alpine:
+    image: alpine:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: "sleep"
+    command:
+      - "infinity"
+volumes:
+  tmp:

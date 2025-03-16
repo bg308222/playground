@@ -1,0 +1,1 @@
+﻿要 depends_on 的話, docker compose up 時會等到 check 完才 up
