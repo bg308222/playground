@@ -12,7 +12,8 @@ const product = {
     history: []
 }
 
-const product1 = sell(product, 10);
+sell(product, 10);
+sell(product, 20);
 
 function sell(product: Product, quantity: number) {
     return produce(product, (draft) => {
