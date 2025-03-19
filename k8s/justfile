@@ -5,6 +5,9 @@
     just install-kubectl
     just install-minikube
 
+@run:
+    minikube start
+
 @install-kubectl:
     # ref: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
     # install

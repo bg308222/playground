@@ -1,0 +1,29 @@
+﻿@_default:
+    just --list
+
+ls:
+    kubectl get pods
+
+run-by-command:
+    kubectl run nginx-by-command --image nginx
+
+run-by-yaml:
+    kubectl apply -f nginx.yml
+
+run:
+    just run-by-command
+    just run-by-yaml
+
+delete-pods:
+    # kubectl delete pods --all
+    kubectl delete pods nginx-by-command
+    kubectl delete pods nginx-by-yaml
+
+describe pod:
+    kubectl describe pod {{pod}}
+
+exec-nginx-by-command:
+    # k exec nginx-by-command -c nginx-by-command -it -- bash
+    # k exec nginx-by-yaml -c nginx -it -- bash
+    # k exec nginx-by-yaml -c net-shoot -it -- bash
+    # k exec nginx-by-yaml -c alpine -it -- sh
