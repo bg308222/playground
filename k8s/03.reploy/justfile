@@ -1,0 +1,34 @@
+﻿@_default:
+    just --list
+
+create:
+    kubectl create -f deploy.yaml
+
+apply:
+    kubectl apply -f deploy.yaml
+
+get:
+    kubectl get deploy
+    kubectl get rs
+    kubectl get pods
+
+describe:
+    kubectl describe deploy
+
+delete:
+    kubectl delete -f deploy.yaml
+
+dump-resource:
+    kubectl api-resources
+
+explain:
+    kubectl explain deploy.spec
+
+rollback-history:
+    kubectl rollout history deploy my-deploy
+
+rollback-status:
+    kubectl rollout status deploy my-deploy
+
+rollback:
+    kubectl rollout undo deploy my-deploy
