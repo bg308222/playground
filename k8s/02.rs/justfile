@@ -1,0 +1,24 @@
+﻿@_default:
+    just --list
+
+add:
+    kubectl apply -f rs.yaml
+
+ls:
+    kubectl get pods
+    kubectl get rs
+
+add-pod:
+    # add pod with label
+    kubectl run nginx --image nginx --labels key=value2
+
+delete:
+    kubectl delete -f rs.yaml
+
+edit:
+    kubectl edit rs my-replicaset
+    # kubectl edit -f rs.yaml
+
+describe:
+    # kubectl describe rs my-replicaset
+    kubectl describe -f rs.yaml
