@@ -1,0 +1,15 @@
+﻿@_default:
+    just --list
+
+generate-cert:
+    mkdir -p certs
+    openssl req -x509 -newkey rsa:4096 \
+    -nodes -keyout certs/key.pem -out certs/cert.pem \
+    -sha256 -days 3650 \
+    -addext "subjectAltName = DNS:localhost"
+
+send-simple-mail:
+    cat template/01.simple-mail.txt | nc -v -C localhost 25
+
+send-tls-mail:
+    cat template/02.tls-mail.txt | openssl s_client -quiet -connect localhost:465

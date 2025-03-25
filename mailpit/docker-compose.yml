@@ -1,0 +1,26 @@
+services:
+  mailpit-simple:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"  # Web UI
+      - "25:1025"    # SMTP server
+    environment:
+      - MP_SMTP_BIND_ADDR=0.0.0.0:1025
+      - MP_UI_BIND_ADDR=0.0.0.0:8025
+
+  mailpit-tls:
+    image: axllent/mailpit:latest
+    ports:
+      - "8465:8025"  # Web UI
+      - "465:1025"   # SMTP server with TLS
+    environment:
+      - MP_SMTP_BIND_ADDR=0.0.0.0:1025
+      - MP_UI_BIND_ADDR=0.0.0.0:8025
+      - MP_SMTP_AUTH_FILE=/etc/mailpit/auth.txt
+      - MP_SMTP_TLS_CERT=/etc/mailpit/cert.pem
+      - MP_SMTP_TLS_KEY=/etc/mailpit/key.pem
+      - MP_SMTP_REQUIRE_TLS=true
+    volumes:
+      - ./certs/cert.pem:/etc/mailpit/cert.pem:ro
+      - ./certs/key.pem:/etc/mailpit/key.pem:ro
+      - ./auth.txt:/etc/mailpit/auth.txt:ro 
