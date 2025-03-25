@@ -13,3 +13,10 @@ send-simple-mail:
 
 send-tls-mail:
     cat template/02.tls-mail.txt | openssl s_client -quiet -connect localhost:465
+
+send-relay-mail:
+    cat template/01.simple-mail.txt | nc -v -C localhost 26
+
+re-up:
+    docker compose down --remove-orphans
+    docker compose up -d
