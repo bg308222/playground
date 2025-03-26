@@ -8,15 +8,28 @@ generate-cert:
     -sha256 -days 3650 \
     -addext "subjectAltName = DNS:localhost"
 
+[group("send-mail")]
 send-simple-mail:
     cat template/01.simple-mail.txt | nc -v -C localhost 25
 
+[group("send-mail")]
 send-tls-mail:
-    cat template/02.tls-mail.txt | openssl s_client -quiet -connect 192.168.16.66:465 -crlf
+    cat template/02.tls-mail.txt | openssl s_client -quiet -connect localhost:465 -crlf
 
+[group("send-mail")]
 send-relay-mail:
     cat template/01.simple-mail.txt | nc -v -C localhost 26
 
+[group("send-mail")]
+send-relay-tls-mail:
+    cat template/01.simple-mail.txt | nc -v -C localhost 466
+
 re-up:
-    docker compose down --remove-orphans
+    just down
+    just up
+
+up:
     docker compose up -d
+
+down:
+    docker compose down --remove-orphans

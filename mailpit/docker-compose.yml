@@ -5,8 +5,6 @@ services:
       - "8025:8025" # Web UI
       - "25:1025" # SMTP server
     environment:
-      - MP_SMTP_BIND_ADDR=0.0.0.0:1025
-      - MP_UI_BIND_ADDR=0.0.0.0:8025
       - MP_VERBOSE=true
   relay-simple:
     image: axllent/mailpit:latest
@@ -14,11 +12,8 @@ services:
       - "8026:8025" # Web UI
       - "26:1025" # SMTP server
     environment:
-      - MP_SMTP_BIND_ADDR=0.0.0.0:1025
-      - MP_UI_BIND_ADDR=0.0.0.0:8025
       - MP_SMTP_RELAY_HOST=simple
       - MP_SMTP_RELAY_PORT=1025
-      - MP_SMTP_RELAY_TLS=false
       - MP_VERBOSE=true
       - MP_SMTP_RELAY_ALL=true
     depends_on:
