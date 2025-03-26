@@ -1,0 +1,11 @@
+﻿請幫我在 docker-compose.yml 新增一個 postfix service name: `simple`, 並滿足以下條件:
+1. 使用 image `boky/postfix:4.4.0`
+2. config 都用環境變數設定
+3. 不需要任何加密以及身份驗證
+4. mail server 的 port 開在 27
+5. 所有 mail from, rcpt to 都允許
+
+完成後新增一個 send-simple.sh, 填入適當的內容讓我能測試
+cat <<EOF | nc -v -C localhost 27
+...
+EOF
