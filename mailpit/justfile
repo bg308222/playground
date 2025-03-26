@@ -12,7 +12,7 @@ send-simple-mail:
     cat template/01.simple-mail.txt | nc -v -C localhost 25
 
 send-tls-mail:
-    cat template/02.tls-mail.txt | openssl s_client -quiet -connect localhost:465
+    cat template/02.tls-mail.txt | openssl s_client -quiet -connect 192.168.16.66:465 -crlf
 
 send-relay-mail:
     cat template/01.simple-mail.txt | nc -v -C localhost 26

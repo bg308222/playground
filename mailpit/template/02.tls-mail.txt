@@ -1,14 +1,10 @@
-EHLO localhost
-AUTH LOGIN
-dXNlcjE=  # base64 encoded "user1"
-cGFzc3dvcmQx  # base64 encoded "password1"
-MAIL FROM:<sender@example.com>
-RCPT TO:<recipient@example.com>
+EHLO innovue.ltd
+AUTH PLAIN AHVzZXIxAHBhc3N3b3JkMQ==
+MAIL FROM: <andy.lin@innovue.ltd>
+RCPT TO: <andy.lin@innovue.ltd>
 DATA
-Subject: Test TLS Email
-From: sender@example.com
-To: recipient@example.com
+Subject: EPS Test mail
 
-This is a test email sent via TLS to Mailpit
+This is a test mail from eps
 .
-QUIT 
+QUIT

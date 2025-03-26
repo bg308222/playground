@@ -2,36 +2,32 @@ services:
   mailpit-simple:
     image: axllent/mailpit:latest
     ports:
-      - "8025:8025"  # Web UI
-      - "25:1025"    # SMTP server
+      - "8025:8025" # Web UI
+      - "25:1025" # SMTP server
     environment:
       - MP_SMTP_BIND_ADDR=0.0.0.0:1025
       - MP_UI_BIND_ADDR=0.0.0.0:8025
       - MP_VERBOSE=true
-
   mailpit-tls:
     image: axllent/mailpit:latest
-    ports:
-      - "8465:8025"  # Web UI
-      - "465:1025"   # SMTP server with TLS
-    environment:
-      - MP_SMTP_BIND_ADDR=0.0.0.0:1025
-      - MP_UI_BIND_ADDR=0.0.0.0:8025
-      - MP_SMTP_AUTH_FILE=/etc/mailpit/auth.txt
-      - MP_SMTP_TLS_CERT=/etc/mailpit/cert.pem
-      - MP_SMTP_TLS_KEY=/etc/mailpit/key.pem
-      - MP_SMTP_REQUIRE_TLS=true
-      - MP_VERBOSE=true
+    restart: unless-stopped
     volumes:
-      - ./certs/cert.pem:/etc/mailpit/cert.pem:ro
-      - ./certs/key.pem:/etc/mailpit/key.pem:ro
-      - ./auth.txt:/etc/mailpit/auth.txt:ro
-
+      - ./certs:/certs
+    ports:
+      - "8465:8025" # Web UI
+      - "465:1025" # SMTP server with TLS
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_SMTP_TLS_CERT: /certs/cert.pem
+      MP_SMTP_TLS_KEY: /certs/key.pem
+      MP_SMTP_REQUIRE_TLS: true
+      MP_SMTP_AUTH: "user1:password1" # AUTH PLAIN AHVzZXIxAHBhc3N3b3JkMQ==
+      MP_VERBOSE: true
   mailpit-relay:
     image: axllent/mailpit:latest
     ports:
-      - "8026:8025"  # Web UI
-      - "26:1025"    # SMTP server
+      - "8026:8025" # Web UI
+      - "26:1025" # SMTP server
     environment:
       - MP_SMTP_BIND_ADDR=0.0.0.0:1025
       - MP_UI_BIND_ADDR=0.0.0.0:8025
@@ -41,4 +37,4 @@ services:
       - MP_VERBOSE=true
       - MP_SMTP_RELAY_ALL=true
     depends_on:
-      - mailpit-simple 
+      - mailpit-simple
