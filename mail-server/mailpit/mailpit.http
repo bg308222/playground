@@ -1,0 +1,12 @@
+﻿### list message
+GET http://localhost:8466/api/v1/search?query=before:2025-03-29
+
+### delete message
+DELETE http://localhost:8466/api/v1/messages
+Content-Type: application/json
+
+{
+    "IDs": [
+        "MmSSRomsJ9EteaSZyzMNSZ"
+    ]
+}
