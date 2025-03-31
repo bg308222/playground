@@ -1,16 +1,24 @@
-﻿我現在有一個 tls 連線 (沒有 STARTTLS) 的 mail server `A` 在 172.20.83.124:465
+﻿我現在有一個 tls 連線 (沒有 STARTTLS) 的 mail server `A` 在 192.168.16.66:465
 uid: user1
 pwd: password1
 
 請幫我在 docker-compose.yml 新增一個 postfix service name: `relay`, 並滿足以下條件:
-1. 使用 image `boky/postfix:4.4.0-alpine`
+1. postfix mail server 的 port 開在 467
 2. config 都用環境變數設定
 3. 不需要任何加密以及身份驗證
 4. 收到的所有信都 relay 到 `A`
 5. 相信 `A` 的憑證
-6. post mail server 的 port 開在 467
+6. docker image: crazymax/msmtpd:latest
 
 完成後在新增一個 send-relay.sh, 填入適當的內容讓我能測試
 cat <<EOF | nc -v -C localhost 467
-...
+EHLO localhost
+MAIL FROM: <andy.lin@innovue.ltd>
+RCPT TO: <andy.lin@innovue.ltd>
+DATA
+Subject: Test Email
+This is a test email body.
+.
+QUIT
 EOF
+```

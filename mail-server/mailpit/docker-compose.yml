@@ -1,25 +1,25 @@
 services:
-  simple:
-    image: axllent/mailpit:latest
+  simple-server:
+    image: axllent/mailpit:v1.24.0
     ports:
       - "8025:8025" # Web UI
       - "25:1025" # SMTP server
     environment:
       - MP_VERBOSE=true
-  relay-simple:
-    image: axllent/mailpit:latest
+  relay-to-simple-server:
+    image: axllent/mailpit:v1.24.0
     ports:
       - "8026:8025" # Web UI
       - "26:1025" # SMTP server
     environment:
-      - MP_SMTP_RELAY_HOST=simple
+      - MP_SMTP_RELAY_HOST=simple-server
       - MP_SMTP_RELAY_PORT=1025
       - MP_VERBOSE=true
       - MP_SMTP_RELAY_ALL=true
     depends_on:
-      - simple
-  tls:
-    image: axllent/mailpit:latest
+      - simple-server
+  tls-server:
+    image: axllent/mailpit:v1.24.0
     restart: unless-stopped
     volumes:
       - ./certs:/certs
@@ -33,3 +33,20 @@ services:
       MP_SMTP_REQUIRE_TLS: true
       MP_SMTP_AUTH: "user1:password1" # AUTH PLAIN AHVzZXIxAHBhc3N3b3JkMQ==
       MP_VERBOSE: true
+  relay-to-tls-server:
+    image: axllent/mailpit:v1.24.0
+    ports:
+      - "8466:8025" # Web UI
+      - "466:1025" # SMTP server
+    environment:
+      - MP_SMTP_RELAY_HOST=tls-server
+      - MP_SMTP_RELAY_PORT=1025
+      - MP_SMTP_RELAY_TLS=true
+      - MP_SMTP_RELAY_AUTH=login
+      - MP_SMTP_RELAY_USERNAME=user1
+      - MP_SMTP_RELAY_PASSWORD=password1
+      - MP_SMTP_RELAY_ALL=true
+      - MP_SMTP_RELAY_ALLOW_INSECURE=true
+      - MP_VERBOSE=true
+    depends_on:
+      - tls-server

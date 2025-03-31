@@ -1,9 +1,0 @@
-EHLO localhost
-MAIL FROM:<sender@example.com>
-RCPT TO:<recipient@example.com>
-DATA
-Subject: Test Email
-
-This is a test email from Mailpit test script
-.
-QUIT

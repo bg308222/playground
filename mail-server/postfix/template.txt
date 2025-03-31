@@ -1,0 +1,9 @@
+EHLO localhost
+MAIL FROM:<andy.lin@innovue.ltd>
+RCPT TO:<andy.lin@innovue.ltd>
+DATA
+Subject: Test Email
+
+This is a test email body.
+.
+QUIT

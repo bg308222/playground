@@ -1,0 +1,14 @@
+EHLO innovue.ltd
+AUTH LOGIN
+dXNlcjE=
+cGFzc3dvcmQx
+MAIL FROM:<mail_from@example.com>
+RCPT TO:<rcpt_to@example.com>
+DATA
+From: data_from@example.com
+To: data_to@@example.com
+Subject: 04.smtp-auth-login
+
+This is a test mail from eps
+.
+QUIT

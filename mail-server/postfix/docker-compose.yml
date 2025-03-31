@@ -1,0 +1,29 @@
+services:
+  relay:
+    image: crazymax/msmtpd:latest
+    restart: unless-stopped
+    environment:
+      - SMTP_HOST=192.168.16.66
+      - SMTP_PORT=465
+      - SMTP_TLS=on # 啟用 TLS
+      - SMTP_STARTTLS=off
+      - SMTP_TLS_CHECKCERT=off
+      - SMTP_AUTH=on
+      - SMTP_USER=user1
+      - SMTP_PASSWORD=password1
+    ports:
+      - "467:2500" # Expose SMTP relay
+  relay-wrong:
+    image: crazymax/msmtpd:latest
+    restart: unless-stopped
+    environment:
+      - SMTP_HOST=192.168.16.66
+      - SMTP_PORT=465
+      - SMTP_TLS=on # 啟用 TLS
+      - SMTP_STARTTLS=off
+      - SMTP_TLS_CHECKCERT=off
+      - SMTP_AUTH=on
+      - SMTP_USER=user1
+      - SMTP_PASSWORD=wrong-password
+    ports:
+      - "468:2500" # Expose SMTP relay

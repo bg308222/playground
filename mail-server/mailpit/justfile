@@ -8,21 +8,36 @@ generate-cert:
     -sha256 -days 3650 \
     -addext "subjectAltName = DNS:localhost"
 
+# 25
 [group("send-mail")]
-send-simple-mail:
-    cat template/01.simple-mail.txt | nc -v -C localhost 25
+send-no-auth-to-simple-server:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    nc -v localhost 25 < <(sleep 1;cat template/01.smtp-no-auth.txt | sed 's/$/\r/')
 
+# 465
 [group("send-mail")]
-send-tls-mail:
-    cat template/02.tls-mail.txt | openssl s_client -quiet -connect localhost:465 -crlf
+send-auth-plain-to-tls-server:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    openssl s_client -quiet -connect localhost:465 < <(sleep 1; cat template/03.smtp-auth-plain.txt | sed 's/$/\r/')
+    # openssl s_client -quiet -connect localhost:465 -crlf < <(sleep 1; cat template/03.smtp-auth-plain.txt)
+    # cat template/03.smtp-auth-plain.txt | openssl s_client -quiet -connect localhost:465 -crlf
+    # cat template/03.smtp-auth-plain.txt | openssl s_client -connect localhost:465 -crlf
 
+# 26 => 25
 [group("send-mail")]
-send-relay-mail:
-    cat template/01.simple-mail.txt | nc -v -C localhost 26
+send-no-auth-and-relay-to-simple-server:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    nc -v localhost 26 < <(sleep 1;cat template/01.smtp-no-auth.txt | sed 's/$/\r/')
 
+# 466 => 465
 [group("send-mail")]
-send-relay-tls-mail:
-    cat template/01.simple-mail.txt | nc -v -C localhost 466
+send-no-auth-and-relay-to-tls-server:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    nc -v localhost 466 < <(sleep 1;cat template/01.smtp-no-auth.txt | sed 's/$/\r/')
 
 re-up:
     just down
@@ -33,3 +48,6 @@ up:
 
 down:
     docker compose down --remove-orphans
+
+ps:
+    docker compose ps
