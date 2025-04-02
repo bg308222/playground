@@ -1,0 +1,8 @@
+﻿set dotenv-load
+
+@_:
+    echo "TEST=${TEST}"
+
+call-child:
+    cd child && just
+    cd child && TEST=other just

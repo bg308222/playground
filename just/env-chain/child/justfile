@@ -1,0 +1,4 @@
+﻿set dotenv-load
+
+@_:
+    echo "TEST=${TEST}"
