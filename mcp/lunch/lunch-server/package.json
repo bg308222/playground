@@ -1,0 +1,19 @@
+{
+  "name": "lunch-server",
+  "version": "1.0.0",
+  "description": "MCP server for lunch ordering history",
+  "type": "module",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc && bun run chmod.js",
+    "start": "bun run build/index.js",
+    "chmod": "bun run chmod.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.9.0"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "typescript": "^5.0.0"
+  }
+}

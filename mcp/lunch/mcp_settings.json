@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "lunch-server": {
+      "command": "bun",
+      "args": ["run", "lunch-server/build/index.js"],
+      "disabled": false,
+      "alwaysAllow": []
+    }
+  }
+}
