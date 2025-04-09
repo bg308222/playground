@@ -5,9 +5,7 @@
   "type": "module",
   "main": "build/index.js",
   "scripts": {
-    "build": "tsc && bun run chmod.js",
-    "start": "bun run build/index.js",
-    "chmod": "bun run chmod.js"
+    "start": "bun run src/index.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.9.0"

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+import { resolve, join } from "node:path";
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 
@@ -14,7 +14,7 @@ const server = new McpServer({
 });
 
 // 設置午餐數據文件路徑
-const lunchFilePath = './lunch.json';
+const lunchFilePath = resolve(join(__dirname, "..", "..", "lunch.json"));
 
 // 讀取午餐數據
 async function readLunchData(): Promise<LunchData> {
