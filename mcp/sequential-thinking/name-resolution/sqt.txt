@@ -1,0 +1,74 @@
+在 ubuntu 中
+從我 ping my-web.com 開始
+整個 name resolution 是怎麼進行的
+
+---
+
+# 在 Ubuntu 中從 ping my-web.com 開始的域名解析過程
+
+當您在 Ubuntu 終端機中輸入 `ping my-web.com` 命令時，整個域名解析過程如下：
+
+## 1. 命令解析與執行
+- Shell 接收並解析命令，識別出 `ping` 是程式名稱，`my-web.com` 是參數
+- Shell 尋找並執行 ping 程式（通常位於 /bin/ping 或 /usr/bin/ping）
+
+## 2. 域名解析請求
+- ping 程式需要將域名轉換為 IP 地址才能發送 ICMP 封包
+- ping 調用系統的域名解析函數，如 `getaddrinfo()` 或 `gethostbyname()`
+
+## 3. 解析順序確定
+- 系統根據 `/etc/nsswitch.conf` 文件中的 `hosts` 行確定解析順序
+- 典型配置為 `hosts: files dns myhostname`，表示按以下順序查詢：
+  1. 本地文件 `/etc/hosts`
+  2. DNS 服務器
+  3. 本機主機名
+
+## 4. 本地文件查詢
+- 系統首先檢查 `/etc/hosts` 文件，查找 `my-web.com` 的映射
+- 如果找到映射（如 `192.168.1.10 my-web.com`），則直接使用對應的 IP 地址
+- 如果沒有找到映射，則繼續下一步
+
+## 5. DNS 查詢準備
+- 系統讀取 `/etc/resolv.conf` 文件，獲取 DNS 服務器設定
+- 在現代 Ubuntu 中，此文件通常由 NetworkManager 或 systemd-resolved 動態生成
+- 文件中的 `nameserver` 行指定了 DNS 服務器的 IP 地址
+
+## 6. 本地 DNS 緩存檢查
+- 如果啟用了本地 DNS 緩存服務（如 systemd-resolved 或 nscd）
+- 系統會先檢查緩存中是否有 `my-web.com` 的記錄
+- 如果找到未過期的緩存記錄，則直接使用緩存結果
+
+## 7. DNS 查詢過程
+- 如果本地緩存中沒有結果，系統向配置的 DNS 服務器發送遞迴查詢請求
+- 查詢通過 UDP 協議（通常是 53 端口）發送
+- 查詢包含域名 `my-web.com` 和查詢類型（通常是 A 記錄，用於獲取 IPv4 地址）
+
+## 8. DNS 服務器處理
+- DNS 服務器收到查詢後，如果有權威答案或緩存結果，會直接回應
+- 否則，它會代表客戶端進行迭代查詢：
+  1. 從根域名服務器開始
+  2. 查詢 `.com` 域名服務器
+  3. 查詢 `my-web.com` 的權威域名服務器
+  4. 獲取 `my-web.com` 的 IP 地址
+
+## 9. 處理 DNS 回應
+- DNS 服務器將查詢結果（包含 IP 地址）發送回系統
+- 系統解析回應封包，提取出 IP 地址
+- 如果啟用了本地 DNS 緩存，系統會將結果存入緩存
+
+## 10. 返回結果並使用
+- 系統將解析得到的 IP 地址返回給 ping 程式
+- ping 程式獲得 IP 地址後，開始發送 ICMP Echo 請求到這個 IP 地址
+- ping 等待並顯示回應結果，包括往返時間等信息
+
+## 其他可能涉及的機制
+- mDNS（多播 DNS）：用於本地網絡發現，處理 `.local` 域名
+- LLMNR（本地鏈路多播名稱解析）：在 DNS 失敗後嘗試
+- NetBIOS：在與 Windows 系統互操作時可能使用
+
+## 故障排除工具
+- `dig` 或 `nslookup`：直接查詢 DNS 服務器
+- `host`：簡單的域名解析工具
+- `getent hosts my-web.com`：按照 nsswitch.conf 中的順序進行查詢
+- `systemd-resolve --status`：查看 systemd-resolved 的狀態和配置
+- `resolvectl query my-web.com`：使用 systemd-resolved 進行查詢
