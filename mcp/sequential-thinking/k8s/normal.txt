@@ -1,0 +1,94 @@
+做為一個會基礎 docker 操作的人
+如何訂定半個月內學會 k8s 的學習計劃
+---
+# Kubernetes (K8s) 半個月學習計劃 - 適合有 Docker 基礎的學習者
+
+## 第一週：基礎概念與環境設置
+
+### 第 1-2 天：Kubernetes 概念與架構
+- 學習 Kubernetes 的核心概念：Pod、Node、Cluster
+- 了解 Kubernetes 的架構：Control Plane 與 Worker Node
+- 掌握 Kubernetes 與 Docker 的關係
+- 資源：Kubernetes 官方文檔、《Kubernetes 權威指南》前幾章
+
+### 第 3-4 天：環境設置與基本操作
+- 安裝 Minikube 或 Kind 作為本地開發環境
+- 安裝並配置 kubectl 命令行工具
+- 學習基本的 kubectl 命令：get、describe、create、delete
+- 練習：部署你的第一個 Pod 和 Service
+- 資源：Kubernetes 官方教程、Minikube 文檔
+
+### 第 5-7 天：核心資源對象
+- 深入學習 Pod、ReplicaSet、Deployment
+- 了解 Service、Ingress 和網路模型
+- 學習 ConfigMap 和 Secret 進行配置管理
+- 實踐：將一個簡單的多容器應用部署到 Kubernetes
+- 資源：Kubernetes 實戰指南、官方示例
+
+## 第二週：進階概念與實戰應用
+
+### 第 8-9 天：存儲與狀態管理
+- 學習 PersistentVolume 和 PersistentVolumeClaim
+- 了解 StatefulSet 和有狀態應用部署
+- 實踐：部署一個帶有持久化存儲的數據庫
+- 資源：Kubernetes 存儲相關文檔、實戰案例
+
+### 第 10-11 天：資源管理與調度
+- 學習 Resource Requests 和 Limits
+- 了解 HorizontalPodAutoscaler 和自動擴展
+- 掌握 Node Affinity 和 Pod Affinity
+- 實踐：配置一個具有資源限制和自動擴展的應用
+- 資源：Kubernetes 資源管理文檔、性能調優指南
+
+### 第 12-13 天：安全與監控
+- 學習 RBAC（基於角色的訪問控制）
+- 了解 NetworkPolicy 進行網路隔離
+- 掌握 Prometheus 和 Grafana 進行監控
+- 實踐：為你的應用配置監控和安全策略
+- 資源：Kubernetes 安全最佳實踐、監控工具文檔
+
+### 第 14-15 天：CI/CD 與實際項目
+- 學習如何將 Kubernetes 整合到 CI/CD 流程
+- 了解 Helm 包管理工具
+- 完成一個完整的項目：從代碼到部署
+- 實踐：使用 Helm 部署一個完整的應用，並配置 CI/CD 流程
+- 資源：Helm 文檔、GitLab/GitHub CI 文檔
+
+## 每日學習建議
+
+1. **理論學習**：每天花 1-2 小時閱讀文檔和教程
+2. **實踐操作**：每天花 2-3 小時進行動手實踐
+3. **問題解決**：遇到問題時查閱 Stack Overflow、Kubernetes GitHub Issues
+4. **社區參與**：加入 Kubernetes Slack 或論壇，與社區交流
+
+## 學習資源推薦
+
+1. **官方資源**：
+   - Kubernetes 官方文檔：https://kubernetes.io/docs/
+   - Kubernetes 互動教程：https://kubernetes.io/docs/tutorials/
+
+2. **線上課程**：
+   - Udemy: Kubernetes for the Absolute Beginners
+   - Coursera: Getting Started with Google Kubernetes Engine
+
+3. **書籍**：
+   - 《Kubernetes in Action》
+   - 《Kubernetes 權威指南》
+   - 《Cloud Native DevOps with Kubernetes》
+
+4. **實踐平台**：
+   - Katacoda Kubernetes Playground
+   - Play with Kubernetes
+
+## 學習成果檢驗
+
+完成這個半個月的學習計劃後，你應該能夠：
+
+1. 理解 Kubernetes 的核心概念和架構
+2. 熟練使用 kubectl 管理 Kubernetes 資源
+3. 能夠部署和管理各種類型的應用到 Kubernetes
+4. 掌握 Kubernetes 的存儲、網路和安全配置
+5. 能夠設計和實現基於 Kubernetes 的 CI/CD 流程
+6. 解決 Kubernetes 環境中的常見問題
+
+祝你學習順利！如果你已經有 Docker 基礎，這個計劃應該能幫助你在半個月內建立起 Kubernetes 的實用技能。
