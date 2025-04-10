@@ -1,0 +1,22 @@
+﻿services:
+  app1:
+    image: nicolaka/netshoot:v0.13
+    networks:
+      - main
+    entrypoint:
+      - sleep
+    command:
+      - "1000000"
+  app2:
+    image: nicolaka/netshoot:v0.13
+    networks:
+      - main
+    entrypoint:
+      - sleep
+    command:
+      - "1000000"
+networks:
+  main:
+    driver: bridge
+    name: test-main-network-3
+    external: true
