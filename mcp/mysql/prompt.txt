@@ -1,0 +1,8 @@
+﻿我的 mysql 連線為
+host: localhost
+uid / pwd: TestUser / gRu3a6QFZumMnAeN
+DB: TestDatabase
+1. 列出所有的 Table
+2. 建立一個 User Table, 包含 Sn Name Gender Age
+3. 任意新增五筆 User
+4. 選出女性
