@@ -1,0 +1,37 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: netshoot
+  labels:
+    name: netshoot
+spec:
+  containers:
+  - name: netshoot
+    image: nicolaka/netshoot:v0.13
+    command: ["/bin/sleep", "3600"]
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 5000
+        protocol: TCP
+      - containerPort: 5001
+        protocol: UDP
+    env:
+      - name: config1
+        valueFrom:
+          configMapKeyRef:
+            name: my-config
+            key: hello
+    envFrom:
+      - configMapRef:
+          name: my-config-2
+    volumeMounts:
+      - name: config-volume
+        mountPath: /etc/config
+        readOnly: true
+  volumes:
+    - name: config-volume
+      configMap:
+        name: my-config

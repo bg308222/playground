@@ -1,0 +1,230 @@
+# Kubernetes 持久卷 (Persistent Volume, PV) 必要知識點
+
+## 1. 基本概念
+
+持久卷 (PV) 本質上只是一個宣告，告訴 Kubernetes："我在某個位置有某個路徑的某個大小的儲存空間可以使用"。PV 是集群級別的資源，獨立於 Pod 的生命週期。
+
+PV 的主要特點：
+- 只是一個宣告，不像 Pod 或 Service 會創建實際的物件實例
+- 由管理員預先配置或動態佈建
+- 與具體的儲存技術細節解耦
+- 可以被多個 Pod 共享使用
+- 生命週期獨立於使用它的 Pod
+
+## 2. PV 的生命週期
+
+PV 的生命週期包含以下階段：
+1. **佈建 (Provisioning)**：
+   - 靜態佈建：管理員手動創建 PV
+   - 動態佈建：通過 StorageClass 自動創建 PV
+
+2. **綁定 (Binding)**：
+   - PV 與 PVC (Persistent Volume Claim) 綁定
+   - 一個 PV 只能綁定到一個 PVC
+
+3. **使用 (Using)**：
+   - Pod 使用 PVC 來訪問 PV 中的儲存資源
+
+4. **釋放 (Releasing)**：
+   - 當 PVC 被刪除時，PV 進入釋放狀態
+   - PV 仍然保留數據，但不能被其他 PVC 使用
+
+5. **回收 (Reclaiming)**：
+   - 根據回收策略處理 PV
+
+## 3. PV 的訪問模式
+
+PV 支持三種訪問模式：
+
+1. **ReadWriteOnce (RWO)**：
+   - 只能被一個節點以讀寫方式掛載
+   - 最常見的訪問模式
+
+2. **ReadOnlyMany (ROX)**：
+   - 可以被多個節點以只讀方式掛載
+
+3. **ReadWriteMany (RWX)**：
+   - 可以被多個節點以讀寫方式掛載
+   - 只有部分儲存系統支持（如 NFS）
+
+4. **ReadWriteOncePod (RWOP)**：(Kubernetes v1.22+)
+   - 只能被一個 Pod 以讀寫方式掛載
+
+## 4. PV 的回收策略
+
+當 PVC 被刪除後，PV 的處理方式由回收策略決定：
+
+1. **Retain (保留)**：
+   - 保留 PV 及其數據
+   - 需要管理員手動處理
+   - 默認策略
+
+2. **Delete (刪除)**：
+   - 刪除 PV 及其關聯的儲存資源
+   - 適用於雲端儲存
+
+3. **Recycle (回收)**：
+   - 刪除 PV 中的數據，但保留 PV 對象
+   - 已被棄用，建議使用動態佈建和 StorageClass
+
+## 5. PV 與 PVC 的關係
+
+- **PV (Persistent Volume)**：
+  - 由集群管理員創建的實際儲存資源
+  - 定義儲存的細節（容量、訪問模式等）
+
+- **PVC (Persistent Volume Claim)**：
+  - 由用戶創建的儲存請求/聲明
+  - 與 PV 一樣，只是一個抽象資源，不是像 Pod 或 Service 那樣會被實際調度的資源
+  - 指定所需的儲存容量和訪問模式
+  - 系統會尋找符合要求的 PV 並綁定
+  - PVC 本身不會被調度到特定節點，而是 Pod 在使用 PVC 時，調度系統會考慮 PVC 綁定的 PV 的位置
+
+- **綁定過程**：
+  - PVC 與 PV 的綁定基於容量、訪問模式和 StorageClass
+  - 一旦綁定，PVC 和 PV 之間是一對一的關係
+
+## 6. 常見的 PV 類型
+
+Kubernetes 支持多種儲存類型的 PV：
+
+1. **本地儲存**：
+   - **hostPath**：
+     * 使用節點本地目錄
+     * 當 Pod 使用綁定了 hostPath 類型 PV 的 PVC 時，使用的是 Pod 所在節點上的路徑
+     * **重要**：在多節點環境中一定會出錯，因為：
+       - 沒有節點親和性限制，Pod 可能被調度到任何節點
+       - 不同節點上的相同路徑可能包含不同的數據
+       - 某些節點上可能根本沒有該路徑
+     * 僅適用於單節點集群或測試環境，絕不建議在多節點生產環境使用
+
+   - **local**：
+     * 使用節點上的本地磁盤、分區或目錄
+     * **有節點親和性限制**，Pod 會被調度到擁有該儲存的特定節點上
+     * **調度機制**：
+       - 在創建 local PV 時，需要在 PV 定義中指定 nodeAffinity，告訴 Kubernetes 這個 PV 位於哪個節點上
+       - 當 Pod 使用綁定了 local PV 的 PVC 時，Kubernetes 調度器會**自動**將 Pod 調度到 PV 所在的節點上
+       - **不需要**在 Pod 中手動指定節點，這是由 Kubernetes 調度器自動處理的
+       - 這通常通過 VolumeBindingMode 為 "WaitForFirstConsumer" 的 StorageClass 實現，它會等待 Pod 創建後再綁定 PV
+     * 在多節點環境中可以使用，因為：
+       - Kubernetes 調度器會確保使用該 PVC 的 Pod 只會被調度到指定的節點上
+       - 即使集群有多個節點，數據也不會出現不一致的問題
+     * 比 hostPath 更可靠，但仍有節點故障風險（如果節點故障，數據可能無法訪問）
+
+2. **網絡儲存**：
+   - NFS (Network File System)
+   - iSCSI
+   - CephFS
+   - GlusterFS
+
+3. **雲端儲存**：
+   - AWS EBS (Elastic Block Store)
+   - Azure Disk
+   - Google Persistent Disk
+   - Alibaba Cloud Disk
+
+4. **CSI (Container Storage Interface)**：
+   - 標準化的儲存接口
+   - 允許第三方儲存提供商開發插件
+
+## 7. StorageClass
+
+StorageClass 用於動態佈建 PV：
+
+- 定義了佈建 PV 的存儲類型和參數
+- 允許按需自動創建 PV
+- 可以設置默認的 StorageClass
+- 包含佈建器、參數和回收策略
+
+## 8. 使用場景和最佳實踐
+
+1. **何時使用 PV**：
+   - 需要持久化數據的應用（數據庫、消息隊列等）
+   - 需要在 Pod 重啟後保留數據的場景
+   - 需要在不同 Pod 之間共享數據
+
+2. **最佳實踐**：
+   - 盡量使用動態佈建和 StorageClass
+   - 為不同的應用選擇合適的儲存類型
+   - 合理設置資源限制和請求
+   - 定期備份重要數據
+   - 使用 PV 的快照功能進行備份（如果儲存提供商支持）
+   - 監控 PV 的使用情況
+
+3. **安全考慮**：
+   - 設置適當的訪問控制
+   - 加密敏感數據
+   - 隔離不同租戶的儲存資源
+
+## 9. 常見問題排查
+
+1. **PV 無法綁定到 PVC**：
+   - 檢查 PV 和 PVC 的容量是否匹配
+   - 檢查訪問模式是否兼容
+   - 檢查 StorageClass 是否匹配
+
+2. **Pod 無法掛載 PV**：
+   - 檢查 PVC 是否已綁定到 PV
+   - 檢查節點是否可以訪問儲存系統
+   - 檢查儲存系統是否正常運行
+
+3. **數據丟失**：
+   - 檢查回收策略是否正確設置
+   - 確保不會意外刪除 PVC
+   - 實施定期備份策略
+
+## 10. 示例：創建和使用 PV/PVC
+
+### 靜態佈建 PV 示例：
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-example
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  nfs:
+    path: /data
+    server: nfs-server.example.com
+```
+
+### 創建 PVC 示例：
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-example
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: manual
+```
+
+### 在 Pod 中使用 PVC 示例：
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-pvc
+spec:
+  containers:
+    - name: app
+      image: nginx
+      volumeMounts:
+        - mountPath: "/data"
+          name: data-volume
+  volumes:
+    - name: data-volume
+      persistentVolumeClaim:
+        claimName: pvc-example

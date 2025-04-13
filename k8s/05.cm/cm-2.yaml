@@ -1,0 +1,6 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config-2
+data:
+  config2: "config-2-value"
