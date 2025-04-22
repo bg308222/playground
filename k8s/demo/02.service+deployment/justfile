@@ -1,0 +1,18 @@
+﻿@_default:
+    just --list
+
+status:
+    kubectl rollout status deploy nginx-demo-deploy
+
+history:
+    kubectl rollout history deploy nginx-demo-deploy
+
+history-rev revision:
+    kubectl rollout history deploy nginx-demo-deploy --revision {{revision}}
+
+undo revision:
+    # kubectl rollout undo deploy nginx-demo-deploy
+    kubectl rollout undo deploy nginx-demo-deploy --to-revision {{revision}}
+
+annotate msg:
+    kubectl annotate deploy nginx-demo-deploy kubernetes.io/change-cause={{msg}} --overwrite

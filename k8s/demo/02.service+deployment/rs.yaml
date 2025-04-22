@@ -1,0 +1,21 @@
+﻿apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-demo-rs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-demo
+  template:
+    metadata:
+      name: nginx-demo-pod
+      labels:
+        app: nginx-demo
+    spec:
+      containers:
+      - name: nginx
+        image: nginxdemos/hello
+        # only information
+        ports:
+        - containerPort: 80
