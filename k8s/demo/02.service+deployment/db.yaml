@@ -1,0 +1,45 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: db-pod
+  labels:
+    name: db-pod
+spec:
+  containers:
+  - name: db-pod
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+    ports:
+      - containerPort: 1433
+        protocol: TCP
+    env:
+      - name: ACCEPT_EULA
+        value: "Y"
+      - name: SA_PASSWORD
+        value: "gRu3a6QFZumMnAeN!"
+      - name: TZ
+        value: Asia/Taipei
+      - name: MSSQL_PID
+        value: Express
+      - name: MSSQL_COLLATION
+        value: Chinese_Taiwan_Stroke_CI_AS
+      - name: PATH
+        value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/mssql-tools/bin:/opt/mssql-tools18/bin
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  selector:
+    name: db-pod
+  ports:
+  - port: 6666
+    targetPort: 1433
