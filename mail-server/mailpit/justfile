@@ -39,6 +39,13 @@ send-no-auth-and-relay-to-tls-server:
     set -euo pipefail
     nc -v localhost 466 < <(sleep 1;cat template/01.smtp-no-auth.txt | sed 's/$/\r/')
 
+# 588 => 587
+[group("send-mail")]
+send-no-auth-and-relay-to-start-tls-server:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    nc -v localhost 588 < <(sleep 1;cat template/01.smtp-no-auth.txt | sed 's/$/\r/')
+
 re-up:
     just down
     just up
