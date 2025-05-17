@@ -1,0 +1,36 @@
+﻿@_default:
+    just --list
+
+dump-91:
+    kubectl exec pod-without-cm -- bash -c "echo DB_HOST=\${DB_HOST}"
+    kubectl exec pod-without-cm -- bash -c "echo DB_PORT=\${DB_PORT}"
+    kubectl exec pod-without-cm -- bash -c "echo DB_USER=\${DB_USER}"
+    kubectl exec pod-without-cm -- bash -c "echo DB_PASS=\${DB_PASS}"
+    kubectl exec pod-without-cm -- bash -c "echo DB_NAME=\${DB_NAME}"
+    kubectl exec pod-without-cm -- bash -c "echo SMTP_HOST=\${SMTP_HOST}"
+    kubectl exec pod-without-cm -- bash -c "echo SMTP_PORT=\${SMTP_PORT}"
+    kubectl exec pod-without-cm -- bash -c "echo SMTP_USER=\${SMTP_USER}"
+    kubectl exec pod-without-cm -- bash -c "echo SMTP_PASS=\${SMTP_PASS}"
+
+dump-92:
+    kubectl exec pod-with-cm -- bash -c "echo DB_HOST=\${DB_HOST}"
+    kubectl exec pod-with-cm -- bash -c "echo DB_PORT=\${DB_PORT}"
+    kubectl exec pod-with-cm -- bash -c "echo DB_USER=\${DB_USER}"
+    kubectl exec pod-with-cm -- bash -c "echo DB_PASS=\${DB_PASS}"
+    kubectl exec pod-with-cm -- bash -c "echo DB_NAME=\${DB_NAME}"
+    kubectl exec pod-with-cm -- bash -c "echo SMTP_HOST=\${SMTP_HOST}"
+    kubectl exec pod-with-cm -- bash -c "echo SMTP_PORT=\${SMTP_PORT}"
+    kubectl exec pod-with-cm -- bash -c "echo SMTP_USER=\${SMTP_USER}"
+    kubectl exec pod-with-cm -- bash -c "echo SMTP_PASS=\${SMTP_PASS}"
+    kubectl exec pod-with-cm -- cat /keys/PRIVATE_KEY
+    kubectl exec pod-with-cm -- cat /keys/PUBLIC_KEY
+
+dump-93:
+    kubectl exec pod-with-secret -- bash -c "echo PRIVATE_KEY=\${PRIVATE_KEY}"
+    kubectl exec pod-with-secret -- bash -c "echo PUBLIC_KEY=\${PUBLIC_KEY}"
+
+up:
+    kubectl apply -k .
+
+down:
+    kubectl delete -k .

@@ -1,0 +1,11 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cm-db-conn
+data:
+  DB_HOST: db.example.com
+  DB_PORT: "1433"
+  DB_USER: db-user
+  DB_PASS: db-password
+  DB_NAME: db-name
+

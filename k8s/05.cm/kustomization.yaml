@@ -1,0 +1,8 @@
+﻿resources:
+  - ./01.cm-db-conn.yaml
+  - ./02.cm-smtp-conn.yaml
+  - ./03.cm-keys.yaml
+  - ./11.secret-keys.yaml
+  - ./91.pod-without-cm.yaml
+  - ./92.pod-with-cm.yaml
+  - ./93.pod-with-secret.yaml

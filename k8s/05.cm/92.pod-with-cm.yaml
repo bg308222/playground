@@ -1,0 +1,60 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-with-cm
+  labels:
+    name: netshoot
+spec:
+  containers:
+  - name: netshoot
+    image: nicolaka/netshoot:v0.13
+    command:
+      - "sleep"
+      - "3600"
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    # [100] ConfigMap as single env
+    env:
+      - name: DB_HOST
+        valueFrom:
+          configMapKeyRef:
+            name: cm-db-conn
+            key: DB_HOST
+      - name: DB_PORT
+        valueFrom:
+          configMapKeyRef:
+            name: cm-db-conn
+            key: DB_PORT
+      - name: DB_USER
+        valueFrom:
+          configMapKeyRef:
+            name: cm-db-conn
+            key: DB_USER
+      - name: DB_PASS
+        valueFrom:
+          configMapKeyRef:
+            name: cm-db-conn
+            key: DB_PASS
+      - name: DB_NAME
+        valueFrom:
+          configMapKeyRef:
+            name: cm-db-conn
+            key: DB_NAME
+    # [200] ConfigMap as env
+    envFrom:
+      - configMapRef:
+          name: cm-smtp-conn
+    # [300] ConfigMap as volume
+    volumeMounts:
+      - name: cm-keys-volume
+        mountPath: /keys
+        readOnly: true
+  volumes:
+    - name: cm-keys-volume
+      configMap:
+        name: cm-keys

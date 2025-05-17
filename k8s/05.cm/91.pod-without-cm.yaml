@@ -1,0 +1,39 @@
+﻿apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-without-cm
+  labels:
+    name: netshoot
+spec:
+  containers:
+  - name: netshoot
+    image: nicolaka/netshoot:v0.13
+    command:
+      - "sleep"
+      - "3600"
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    env:
+      - name: DB_HOST
+        value: db.example.com
+      - name: DB_PORT
+        value: "1433"
+      - name: DB_USER
+        value: db-user
+      - name: DB_PASS
+        value: db-password
+      - name: DB_NAME
+        value: db-name
+      - name: SMTP_HOST
+        value: smtp.example.com
+      - name: SMTP_PORT
+        value: "587"
+      - name: SMTP_USER
+        value: smtp-user
+      - name: SMTP_PASS
+        value: smtp-password
