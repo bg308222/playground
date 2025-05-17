@@ -31,3 +31,8 @@
 
     # clean
     rm minikube_latest_amd64.deb
+
+@install-kustomize:
+    # ref: https://kubectl.docs.kubernetes.io/installation/kustomize/binaries/
+    cd ~/bin && curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+    kustomize version --short
