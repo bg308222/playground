@@ -1,0 +1,17 @@
+﻿@_default:
+    just --list
+
+dump-01:
+    kubectl exec pod-with-pvc-1 -- ls /usr/share/nginx/html
+    kubectl exec pod-with-pvc-2 -- ls /usr/share/nginx/html
+
+up-01:
+    kubectl apply -f 01.pod-with-pv.yaml
+
+down-01:
+    kubectl delete -f 01.pod-with-pv.yaml
+
+ls:
+    kubectl get pv
+    kubectl get pvc
+    kubectl get pods
