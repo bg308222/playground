@@ -228,3 +228,9 @@ spec:
     - name: data-volume
       persistentVolumeClaim:
         claimName: pvc-example
+
+## Note
+1. 相同 storageClassName 的 pv, pvc 才會被配對
+2. pv 沒設 storageClassName 會被視為 ""
+3. pvc 沒設 storageClassName 會使用 default sc
+4. 如果配對不到就會去找同 storageClassName 的 storageClass 要 pv
