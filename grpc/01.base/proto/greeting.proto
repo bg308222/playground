@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package greeting;
+
+// 問候服務定義
+service GreetingService {
+  // 簡單問候
+  rpc SayHello (HelloRequest) returns (HelloResponse);
+
+  // 串流問候
+  rpc SayHelloStream (HelloRequest) returns (stream HelloResponse);
+}
+
+// 請求訊息
+message HelloRequest {
+  string name = 1;
+}
+
+// 回應訊息
+message HelloResponse {
+  string message = 1;
+  int64 timestamp = 2;
+}

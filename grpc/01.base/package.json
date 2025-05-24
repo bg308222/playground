@@ -1,0 +1,22 @@
+{
+  "name": "01.base",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "server": "bun run server/index.ts",
+    "client": "bun run client/index.ts",
+    "server:js": "bun run server/index.js",
+    "client:js": "bun run client/index.js",
+    "type-check": "bun run scripts/type-check.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.13.4",
+    "@grpc/proto-loader": "^0.7.15"
+  }
+}
