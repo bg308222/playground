@@ -1,6 +1,8 @@
 ﻿@_default:
     just --list
 
+install:
+    mise use -g kind@0.29.0
 
 create:
     kind create cluster --config ./kind-multi-node.yaml --name kind-multi-node

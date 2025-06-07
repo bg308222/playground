@@ -1,0 +1,26 @@
+﻿@_default:
+    just --list
+
+exec-w1:
+    docker exec -w /mnt/data -it `docker ps | grep kind | grep -P "worker$" | awk '{print $1}'` bash
+
+exec-w2:
+    docker exec -w /mnt/data -it `docker ps | grep kind | grep -P "worker2" | awk '{print $1}'` bash
+
+ls-mounts:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    kubectl get pods -o wide --no-headers | tail -n 5 | awk '{print $1}' | xargs -I {} bash -c "echo {} && kubectl exec {} -- ls /mnt/data"
+
+up:
+    kubectl apply -k .
+
+down:
+    kubectl delete -k .
+
+ls:
+    kubectl get pods -o wide --no-headers
+    @echo ""
+    kubectl get pv -o wide --no-headers
+    @echo ""
+    kubectl get pvc -o wide --no-headers
