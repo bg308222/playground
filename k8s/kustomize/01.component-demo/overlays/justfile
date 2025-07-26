@@ -1,0 +1,10 @@
+﻿@_default:
+    just --list
+
+build:
+    just build-single community
+    just build-single dev
+    just build-single enterprise
+
+build-single target:
+    kubectl kustomize ./{{target}} > output/{{target}}.yml
