@@ -22,11 +22,11 @@ type: Opaque
 ---
 apiVersion: v1
 data:
-  secret_key.txt: ""
-  site_key.txt: ""
+  secret_key.txt: c2VjcmV0
+  site_key.txt: c2l0ZQ==
 kind: Secret
 metadata:
-  name: recaptcha-mk86md4gf7
+  name: recaptcha-9bf7g5mm2b
 type: Opaque
 ---
 apiVersion: apps/v1
@@ -62,7 +62,7 @@ spec:
       volumes:
       - name: recaptcha
         secret:
-          secretName: recaptcha-mk86md4gf7
+          secretName: recaptcha-9bf7g5mm2b
       - name: dbpass
         secret:
           secretName: dbpass-bm8b2mkbtb
