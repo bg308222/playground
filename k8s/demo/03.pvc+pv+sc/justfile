@@ -1,0 +1,10 @@
+﻿@_default:
+    just --list
+
+delete:
+    kubectl delete -f ./02.pod-with-pvc.yaml
+    kubectl delete -f ./03.pvc-with-default-sc.yaml
+
+apply:
+    kubectl apply -f ./02.pod-with-pvc.yaml
+    kubectl apply -f ./03.pvc-with-default-sc.yaml

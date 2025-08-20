@@ -1,0 +1,15 @@
+﻿apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: keys-pvc
+spec:
+  resources:
+    requests:
+      storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: keys-sc
+  selector:
+    matchLabels:
+      node: kind-multi-node-worker2
+
