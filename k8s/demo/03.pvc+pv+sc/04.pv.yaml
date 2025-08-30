@@ -1,0 +1,15 @@
+﻿apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: keys-pv
+spec:
+  capacity:
+    storage: 200Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: keys-sc
+  hostPath:
+    path: /opt/app/keys
+    type: DirectoryOrCreate
+

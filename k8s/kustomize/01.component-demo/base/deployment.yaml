@@ -1,0 +1,31 @@
+# $BASE/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example
+spec:
+  selector:
+    matchLabels:
+      name: example
+  template:
+    spec:
+      metadata:
+        labels:
+          name: example
+      containers:
+      - name: example
+        image: example:1.0
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: conf
+          mountPath: /etc/config
+      volumes:
+        - name: conf
+          configMap:
+            name: conf
