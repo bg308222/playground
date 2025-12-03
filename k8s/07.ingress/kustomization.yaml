@@ -1,0 +1,7 @@
+﻿resources:
+  - ./ingress-controller.yaml
+  - ./shop-service.yaml
+  - ./video-service.yaml
+  - ./ingress-path.yaml
+  - ./ingress-host.yaml
+  - ./netshoot-pod.yaml
