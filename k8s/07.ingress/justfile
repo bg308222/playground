@@ -1,0 +1,8 @@
+﻿@_default:
+    just --list
+
+ls:
+    kubectl get pod -A -o wide
+
+exec:
+    kubectl exec -it netshoot -- bash

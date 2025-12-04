@@ -18,7 +18,7 @@ spec:
       - name: shop
         image: hashicorp/http-echo
         args:
-          - "-text=shop"
+          - "-text=Go shopping"
         ports:
         - containerPort: 5678
 ---
