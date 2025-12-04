@@ -5,3 +5,4 @@
   - ./ingress-path.yaml
   - ./ingress-host.yaml
   - ./netshoot-pod.yaml
+  - ./ingress-controller-service.yaml
