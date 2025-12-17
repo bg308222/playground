@@ -1,0 +1,13 @@
+﻿services:
+  lb:
+    image: haproxy:2.8.2
+    ports:
+      - "80:80"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    restart: unless-stopped
+    user: "1000"
+networks:
+  default:
+    external: true
+    name: kind

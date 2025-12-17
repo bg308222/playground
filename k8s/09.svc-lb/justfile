@@ -1,0 +1,31 @@
+﻿ls:
+    kubectl get nodes -o wide
+    kubectl get pods -o wide
+    kubectl get svc -o wide
+
+a:
+    kubectl apply -k .
+
+d:
+    kubectl delete -k .
+
+update-status:
+    kubectl patch service shop-service \
+        --type='merge' \
+        --subresource=status \
+        -p '{"status": {"loadBalancer": {"ingress": [{ "ip": "172.20.83.124" }]}}}'
+
+up:
+    docker compose up -d
+
+down:
+    docker compose down
+
+ps:
+    docker compose ps
+
+logs svc:
+    docker compose logs {{svc}} -f
+
+restart svc:
+    docker compose restart {{svc}}

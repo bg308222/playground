@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shop-deployment
+  labels:
+    app: shop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shop
+  template:
+    metadata:
+      labels:
+        app: shop
+    spec:
+      containers:
+      - name: shop
+        image: hashicorp/http-echo
+        args:
+          - "-text=Go shopping"
+        ports:
+        - containerPort: 5678
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: shop
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5678
