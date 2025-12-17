@@ -1,0 +1,11 @@
+﻿services:
+  netshoot:
+    image: nicolaka/netshoot:v0.13
+    container_name: kind_netshoot
+    tty: true
+    stdin_open: true
+    networks:
+      - kind
+networks:
+  kind:
+    external: true

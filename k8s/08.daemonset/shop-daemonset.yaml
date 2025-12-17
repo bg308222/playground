@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: shop-daemonset
+  labels:
+    app: shop
+spec:
+  selector:
+    matchLabels:
+      app: shop
+  template:
+    metadata:
+      labels:
+        app: shop
+    spec:
+      containers:
+      - name: shop
+        image: hashicorp/http-echo
+        args:
+          - "-text=Go shopping"
+        ports:
+        - containerPort: 5678
+          hostPort: 80

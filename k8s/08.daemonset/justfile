@@ -1,0 +1,9 @@
+﻿ls:
+    kubectl get nodes -o wide
+    kubectl get pods -o wide
+
+a:
+    kubectl apply -k .
+
+d:
+    kubectl delete -k .

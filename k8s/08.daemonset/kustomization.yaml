@@ -1,0 +1,3 @@
+﻿resources:
+  - ./shop-deployment.yaml
+  - ./shop-daemonset.yaml
