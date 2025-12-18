@@ -10,7 +10,7 @@ d:
     kubectl delete -k .
 
 update-status:
-    kubectl patch service shop-service \
+    kubectl patch service shop-service-load-balancer \
         --type='merge' \
         --subresource=status \
         -p '{"status": {"loadBalancer": {"ingress": [{ "ip": "172.20.83.124" }]}}}'
