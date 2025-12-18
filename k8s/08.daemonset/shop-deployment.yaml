@@ -21,4 +21,4 @@ spec:
           - "-text=Go shopping"
         ports:
         - containerPort: 5678
-          hostPort: 5678
+          hostPort: 123
