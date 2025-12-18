@@ -1,2 +1,3 @@
 ﻿resources:
   - ./shop-service.yaml
+  - ./netshoot-pod.yaml
