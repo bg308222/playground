@@ -15,9 +15,6 @@ spec:
         app: shop
     spec:
       containers:
-      - name: shop
-        image: hashicorp/http-echo
-        args:
-          - "-text=Go shopping"
-        ports:
-        - containerPort: 5678
+      - name: netshoot
+        image: nicolaka/netshoot
+        command: ["sleep", "infinity"]
