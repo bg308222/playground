@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["netshoot", "nginxdemos", "nicolaka"]
+  "cSpell.words": [
+    "daemonset",
+    "netshoot",
+    "nginxdemos",
+    "nicolaka",
+    "roundrobin",
+    "subresource"
+  ]
 }

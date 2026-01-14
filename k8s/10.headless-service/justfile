@@ -1,0 +1,19 @@
+﻿@_default:
+    just --list
+
+get:
+    kubectl get rs -o wide
+    kubectl get pods -o wide
+    kubectl get svc -o wide
+
+    kubectl exec -it netshoot -- host shop-service-cluster-ip
+    kubectl exec -it netshoot -- host shop-service-headless
+
+create:
+    kubectl apply -k .
+
+delete:
+    kubectl delete -k .
+
+exec:
+    kubectl exec -it netshoot -- bash
