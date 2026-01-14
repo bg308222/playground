@@ -1,0 +1,22 @@
+﻿@_default:
+    just --list
+
+get:
+    kubectl get rs -o wide
+    kubectl get pods -o wide
+    kubectl get svc -o wide
+
+create:
+    kubectl apply -k .
+
+delete:
+    kubectl delete -k .
+
+exec:
+    kubectl exec -it netshoot -- bash
+
+dump:
+    -kubectl exec -it video-pod -- host video.video-subdomain
+    kubectl exec -it netshoot -- host shop-subdomain
+    kubectl exec -it netshoot -- host shop.shop-subdomain
+    kubectl exec -it netshoot -- host shop-2.shop-subdomain

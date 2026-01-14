@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shop-subdomain
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: shop
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5678
