@@ -1,0 +1,28 @@
+@_default:
+    just --list
+
+get:
+    kubectl get statefulset -o wide
+    kubectl get pods -o wide
+    kubectl get svc -o wide
+    kubectl get pvc -o wide
+    kubectl get pv -o wide
+    kubectl get sc -o wide
+
+create:
+    kubectl apply -k .
+
+delete:
+    kubectl delete -k .
+
+exec:
+    kubectl exec -it netshoot -- bash
+
+exec-shop pod:
+    kubectl exec -it {{pod}} -- bash
+
+dump:
+    kubectl exec -it netshoot -- host shop-service-headless
+    kubectl exec -it netshoot -- host shop-statefulset-0.shop-service-headless
+    kubectl exec -it netshoot -- host shop-statefulset-1.shop-service-headless
+    kubectl exec -it netshoot -- host shop-statefulset-2.shop-service-headless

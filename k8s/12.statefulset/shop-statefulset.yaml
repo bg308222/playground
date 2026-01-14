@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: shop-statefulset
+spec:
+  serviceName: shop-service-headless
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shop
+  template:
+    metadata:
+      labels:
+        app: shop
+    spec:
+      containers:
+      - name: netshoot
+        image: nicolaka/netshoot
+        command: ["sleep", "infinity"]
+        volumeMounts:
+        - name: shop-storage
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: shop-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 1Gi
