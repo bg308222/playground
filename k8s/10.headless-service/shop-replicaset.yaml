@@ -16,3 +16,20 @@ spec:
       - name: netshoot
         image: nicolaka/netshoot
         command: ["sleep", "infinity"]
+        volumeMounts:
+        - name: shop-storage
+          mountPath: /data
+      volumes:
+      - name: shop-storage
+        persistentVolumeClaim:
+          claimName: shop-storage-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shop-storage-pvc
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi

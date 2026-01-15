@@ -5,6 +5,7 @@ get:
     kubectl get rs -o wide
     kubectl get pods -o wide
     kubectl get svc -o wide
+    kubectl get pvc -o wide
 
 create:
     kubectl apply -k .
