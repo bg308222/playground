@@ -7,3 +7,5 @@ resources:
   - video.yaml
   - shop-service-headless.yaml
   - netshoot-pod.yaml
+  - netshoot-pod-without-hostname.yaml
+  - netshoot-pod-only-subdomain.yaml

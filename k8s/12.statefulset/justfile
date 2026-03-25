@@ -19,10 +19,14 @@ exec:
     kubectl exec -it netshoot -- bash
 
 exec-shop pod:
-    kubectl exec -it {{pod}} -- bash
+    kubectl exec -it {{ pod }} -- bash
 
 dump:
     kubectl exec -it netshoot -- host shop-service-headless
     kubectl exec -it netshoot -- host shop-statefulset-0.shop-service-headless
     kubectl exec -it netshoot -- host shop-statefulset-1.shop-service-headless
     kubectl exec -it netshoot -- host shop-statefulset-2.shop-service-headless
+
+dump-subdomain:
+    kubectl get pod shop-statefulset-0 -o yaml | yq '{"hostname": .spec.hostname, "subdomain": .spec.subdomain}'
+    kubectl get pod shop-statefulset-with-subdomain-0 -o yaml | yq '{"hostname": .spec.hostname, "subdomain": .spec.subdomain}'

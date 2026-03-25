@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: netshoot-only-subdomain
+spec:
+  subdomain: netshoot-only-subdomain-subdomain
+  containers:
+  - name: netshoot
+    image: nicolaka/netshoot
+    command: ["sleep", "infinity"]
+
+

@@ -20,3 +20,18 @@ dump:
     kubectl exec -it netshoot -- host shop-subdomain
     kubectl exec -it netshoot -- host shop.shop-subdomain
     kubectl exec -it netshoot -- host shop-2.shop-subdomain
+
+with-hostname:
+    kubectl exec netshoot -- hostname # Show hostname
+    kubectl exec netshoot -- hostname -f # Show FQDN
+    kubectl exec netshoot -- hostname -i # Show IP
+
+without-hostname:
+    kubectl exec netshoot-without-hostname -- hostname # Show hostname
+    kubectl exec netshoot-without-hostname -- hostname -f # Show FQDN
+    kubectl exec netshoot-without-hostname -- hostname -i # Show IP
+
+only-subdomain:
+    kubectl exec netshoot-only-subdomain -- hostname # Show hostname
+    kubectl exec netshoot-only-subdomain -- hostname -f # Show FQDN
+    kubectl exec netshoot-only-subdomain -- hostname -i # Show IP

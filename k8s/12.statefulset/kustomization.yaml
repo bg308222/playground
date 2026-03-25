@@ -3,4 +3,5 @@ kind: Kustomization
 resources:
   - shop-service-headless.yaml
   - shop-statefulset.yaml
+  - shop-statefulset-with-subdomain.yaml
   - netshoot-pod.yaml
