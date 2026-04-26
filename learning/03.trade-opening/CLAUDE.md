@@ -67,15 +67,18 @@
 
 ```
 sessions/
-  YYYY-MM-DD-NNN/
+  NNNNN-YYYY-MM-DD/
     chart.png     （若使用者提供圖片，複製或參照原始路徑）
     session.md    （包含使用者判斷 + AI 判斷 + 討論結論）
 ```
 
+> 舊 session（00001–00009）維持原始 `YYYY-MM-DD-NNN` 命名不動。
+> 新 session 從 `00010` 開始，使用 `NNNNN-YYYY-MM-DD` 格式，流水號全域共用、跨日連續不重編。
+
 `session.md` 格式：
 
 ```markdown
-# Session YYYY-MM-DD-NNN
+# Session NNNNN-YYYY-MM-DD
 
 ## 使用者判斷
 （原文照錄）
@@ -91,7 +94,7 @@ sessions/
 （若討論修樹，記錄修改提案與決定）
 ```
 
-NNN 為當日流水號（001、002…），目錄名稱為完整日期加流水號。
+NNNNN 為全域流水號，新 session 從 00010 開始，跨日連續不重編，目錄名稱為流水號加完整日期。
 
 ---
 
