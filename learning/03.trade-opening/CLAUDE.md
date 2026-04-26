@@ -15,6 +15,7 @@
 - `tree.md` — 實際執行時使用的決策樹（主要操作文件）
 - `concept.md` — Brooks 框架中有明確原始定義的核心概念（判斷優先參照）
 - `gray-areas.md` — 練習中出現的模糊情境，待未來案例累積後收斂定義
+- `retraction-log.md` — AI 收回判斷的記錄與根因反思（AI 自行維護）
 
 ## 判斷優先順序（重要）
 
@@ -26,6 +27,7 @@
 - 但 tree.md 不能凌駕 Brooks 的原始邏輯；遇到衝突時，以 Brooks 為準
 - 主觀判斷（「感覺像」、「通常會」）永遠排在最後，若找不到 Brooks 或 tree 的依據，就不交易
 - Brooks 的核心概念定義見 `concept.md`
+- 每次需要收回判斷時，必須在 `retraction-log.md` 記錄根因，並提煉防止規則
 
 ---
 
