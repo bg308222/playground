@@ -53,9 +53,12 @@ Always-In 已從 gap 方向翻轉？
 ### 3c｜Breakout Mode
 
 ```
-Always-In 明確選邊了嗎？
-├── 是，且 range 高低點被明確突破 → 等 signal bar confirmation → STEP 4
-└── 否 → 繼續等，不進場
+價格在哪裡？
+├── 在 range 邊界（DB at bottom / DT at top）
+│   └── 出現 signal bar？→ STEP 4
+├── range 高低點被明確突破
+│   └── 等 signal bar confirmation → STEP 4
+└── 價格在 range 中間 → 繼續等，不進場
 ```
 
 ---
@@ -82,5 +85,6 @@ Always-In 明確選邊了嗎？
 |---|---|---|---|
 | Gap Trend | 與 gap 同向 | Trend Continuation | pullback + signal bar |
 | Opening Reversal | 已翻轉 | Reversal | DT/DB 結構 + signal bar |
-| Breakout Mode | 不明確 → 等選邊 | Breakout | 突破 range + signal bar |
+| Breakout Mode | 不明確 | Breakout | 突破 range + signal bar |
+| Breakout Mode | 不明確 | Boundary Reversal | range 邊界 DB/DT + signal bar |
 | 任何狀態 | 不明確 | ❌ 不交易 | — |
