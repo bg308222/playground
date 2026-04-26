@@ -16,12 +16,13 @@
 
 ```
 今天有 gap 嗎？
-├── 否（平開）→ 進入 Breakout Mode → STEP 3c
+├── 否（平開）→ Opening Range → STEP 3c
 └── 是（gap up / down）
     ↓
     前 3–5 根出現 follow-through（同方向強棒，收近高/低點）？
     ├── 是 → Gap Trend → STEP 3a
-    └── 否（反向棒、推進失敗、重疊棒）→ Opening Reversal → STEP 3b
+    ├── 否，但有反向推進（反向棒、DT/DB、推進失敗）→ Opening Reversal → STEP 3b
+    └── 否，原地整理（重疊棒、無方向）→ Opening Range → STEP 3c
 ```
 
 ---
@@ -30,7 +31,7 @@
 
 > 每進入一個分類前先問：「現在多空哪邊佔優？」
 > 答案只有三個：**偏多 / 偏空 / 不明確**
-> 不明確時 = 跳回 Breakout Mode，等候
+> 不明確時 = 跳回 Opening Range，等候
 
 ### 3a｜Gap Trend → Trend Continuation
 
@@ -50,7 +51,9 @@ Always-In 已從 gap 方向翻轉？
 └── 否（翻轉不明確）→ 等待，不進場
 ```
 
-### 3c｜Breakout Mode
+### 3c｜Opening Range
+
+> **BOM（Breakout Mode）**：Bar 1 高低點兩側都被突破後失敗，是 Opening Range 的高確定性形態，進場邏輯與 Opening Range 相同。
 
 ```
 價格在哪裡？
@@ -85,6 +88,6 @@ Always-In 已從 gap 方向翻轉？
 |---|---|---|---|
 | Gap Trend | 與 gap 同向 | Trend Continuation | pullback + signal bar |
 | Opening Reversal | 已翻轉 | Reversal | DT/DB 結構 + signal bar |
-| Breakout Mode | 不明確 | Breakout | 突破 range + signal bar |
-| Breakout Mode | 不明確 | Boundary Reversal | range 邊界 DB/DT + signal bar |
+| Opening Range | 不明確 | Breakout | 突破 range + signal bar |
+| Opening Range | 不明確 | Boundary Reversal | range 邊界 DB/DT + signal bar |
 | 任何狀態 | 不明確 | ❌ 不交易 | — |
