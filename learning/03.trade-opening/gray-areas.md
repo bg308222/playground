@@ -74,3 +74,23 @@ Gap down 開盤，Bars 2–3 強多（第一次翻轉，Opening Reversal），Ba
 - 是否有例外情境（例如 climactic spike + channel 結束後的第一根強反轉棒）？
 
 **等待**：累積更多「AIS 中找逆勢三推」的案例後，對比勝負率再收斂定義。
+
+---
+
+## GA-004｜Opening Reversal 確認後，後續 pullback 如何交易
+
+**來源**：2026-04-27 假設情境討論
+
+**情境**：
+Gap down 開盤，AI 確認 AIS。接著出現 4 根以上強陽，AI 從 AIS 翻到 AIL，Opening Reversal 已確認且已跑出一段距離。
+此時再出現 pullback，該用什麼框架進場？
+
+**問題核心**：
+- tree.md 的 3b（Opening Reversal）只描述「在反轉起點抓結構」的邏輯
+- 但反轉確認後已跑了一段，起點已過，後續 pullback 的處理方式 3b 未覆蓋
+
+**推導方向（未驗證）**：
+AI 翻到 AIL 後，市場有新的主方向，後續 pullback 理論上等同於新方向的 trend continuation，邏輯與 3a 鏡像相同（等 pullback + signal bar + 做多）。
+但此推導尚無明確 Brooks 原文支撐。
+
+**等待**：找到 Brooks 對此情境的明確說明，或累積實際案例後收斂。
