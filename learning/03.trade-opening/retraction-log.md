@@ -45,6 +45,24 @@ Bar 6 是強空棒，Failed Opening Reversal 確認，AIS 從 bar 6 起翻空。
 
 ---
 
+### 2026-04-27｜對偏空背景加了 tree.md 沒有的 filter，排除合法做多
+
+**原始判斷**：
+Opening Range（或 BOM）上緣突破後，以「前 session EMA 偏空、逆勢做多」為由，排除 Bar 11 做多。
+
+**收回原因**：
+使用者指出 tree.md 3c 明確寫「range 高低點被明確突破 → 等 signal bar confirmation → STEP 4」，沒有任何「EMA 背景偏空則不進」的過濾條件。我加了一個 tree.md 沒有的主觀 filter，違反判斷優先順序（tree.md > 主觀判斷）。
+
+**根因分類**：推理流程錯誤
+
+**根因說明**：
+看到「逆勢」感覺心裡不舒服，就在 STEP 3c 完成後、STEP 4 之前插入了一個框架外的濾鏡（「EMA 偏空背景下不追漲」），直接跳過 STEP 4 的驗證。這個濾鏡本身不是 Brooks 的原則，也不在 tree.md 裡，是純主觀判斷。
+
+**防止規則**：
+走完 STEP 3（分類確認）後，若條件已指向進場路徑，必須直接進 STEP 4 做 signal bar 驗證，不能在 STEP 3 和 STEP 4 之間插入「感覺是逆勢」這類主觀中斷。若要加情境過濾（如趨勢背景），必須能引用 Brooks 原文或 tree.md 對應節點，否則不得使用。
+
+---
+
 ### 2026-04-26｜對比論證未雙向驗證
 
 **原始判斷**：
