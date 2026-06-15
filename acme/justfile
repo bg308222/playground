@@ -1,0 +1,9 @@
+﻿@_default:
+    just --list
+
+csr:
+    openssl genrsa -out private.key 2048
+    openssl req -new -key private.key -out request.csr -config csr.conf
+
+acme:
+    sudo certbot certonly --manual --preferred-challenges dns --staging
