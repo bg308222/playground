@@ -30,7 +30,14 @@ import { layout, codeBlock, kvTable } from "./views";
 
 // The SP trusts this IdP certificate. In the real world it is exchanged
 // out-of-band via the IdP's metadata; here we read it from disk directly.
-const IDP_CERTIFICATE = readFileSync(new URL("../certs/idp-cert.pem", import.meta.url), "utf8");
+// Point IDP_CERT_PATH at a real IdP's signing cert (e.g. Authentik's) to
+// federate with it instead of the bundled demo IdP.
+const IDP_CERTIFICATE = readFileSync(
+  process.env.IDP_CERT_PATH
+    ? process.env.IDP_CERT_PATH
+    : new URL("../certs/idp-cert.pem", import.meta.url),
+  "utf8",
+);
 
 // AuthnRequest IDs we have issued and are still waiting on. Used to validate
 // InResponseTo (prevents accepting unsolicited / replayed responses).
@@ -116,15 +123,22 @@ sp.post("/acs", async (c) => {
     expectedAudience: SP_ENTITY_ID,
     expectedAcs: SP_ACS_URL,
     isRequestPending: (id) => pendingRequests.has(id),
+    allowIdpInitiated: process.env.ALLOW_IDP_INITIATED === "true",
   });
 
   // Consume the request id (one-time use) regardless of outcome.
   if (result.inResponseTo) pendingRequests.delete(result.inResponseTo);
 
+  const idpInitiated = !result.inResponseTo;
   const checks: [string, string][] = [
     ["簽章驗證 (IdP 公鑰)", boolLabel(!result.errors.some((e) => /signature|reference/.test(e)))],
     ["Status = Success", boolLabel(result.status?.endsWith("Success") ?? false)],
-    ["InResponseTo 對得上待處理請求", boolLabel(!result.errors.some((e) => /InResponseTo/.test(e)))],
+    [
+      idpInitiated ? "InResponseTo（IdP-initiated，略過對帳）" : "InResponseTo 對得上待處理請求",
+      idpInitiated && !result.errors.some((e) => /InResponseTo/.test(e))
+        ? `<span class="muted">略過</span>`
+        : boolLabel(!result.errors.some((e) => /InResponseTo/.test(e))),
+    ],
     ["Audience = 本 SP", boolLabel(!result.errors.some((e) => /audience/.test(e)))],
     ["時間窗 (NotBefore/NotOnOrAfter)", boolLabel(!result.errors.some((e) => /NotBefore|expired/.test(e)))],
   ];

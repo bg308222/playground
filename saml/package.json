@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "bun run src/server.ts",
+    "start:authentik": "ALLOW_IDP_INITIATED=true IDP_SSO_URL='http://localhost:9000/application/saml/saml-app/' IDP_ENTITY_ID='http://localhost:9000/application/saml/saml-app/metadata/' IDP_CERT_PATH='certs/authentik-cert.pem' bun run src/server.ts",
     "dev": "bun --watch run src/server.ts",
     "gen-certs": "openssl req -x509 -newkey rsa:2048 -keyout certs/idp-key.pem -out certs/idp-cert.pem -days 3650 -nodes -subj '/CN=demo-saml-idp/O=SAML Demo IdP'"
   },

@@ -234,6 +234,10 @@ export interface VerifyOptions {
   expectedAudience: string; // SP entityID
   expectedAcs: string; // SP ACS URL (Recipient/Destination check)
   isRequestPending: (inResponseTo: string) => boolean;
+  // When true, a response with NO InResponseTo is accepted as an IdP-initiated
+  // login (the pending-request check is skipped). This loses the anti-replay /
+  // anti-CSRF guarantee that InResponseTo provides, so keep it opt-in.
+  allowIdpInitiated?: boolean;
 }
 
 export function verifyResponse(xml: string, opts: VerifyOptions): VerifyResult {
@@ -241,40 +245,51 @@ export function verifyResponse(xml: string, opts: VerifyOptions): VerifyResult {
   const doc = new DOMParser().parseFromString(xml, "text/xml");
 
   // --- (a) signature verification ------------------------------------------
-  // The signature is on the <Assertion>. We must verify BEFORE trusting any
-  // data inside it.
-  const signatures = xpath.select(
-    "//*[local-name(.)='Assertion']/*[local-name(.)='Signature']",
-    doc as any,
-  ) as Node[];
+  // We must verify BEFORE trusting any data inside the message. Different IdPs
+  // place the signature differently: our demo IdP signs the <Assertion>, while
+  // Authentik (and others) may sign the <Response>, the <Assertion>, or both.
+  // Accept any valid signature whose reference covers one of those elements.
+  const responseId0 = selectFirst(doc, "Response")?.getAttribute("ID") || "";
+  const assertionId0 = selectFirst(doc, "Assertion")?.getAttribute("ID") || "";
 
-  if (signatures.length !== 1) {
-    errors.push(`expected exactly 1 assertion signature, found ${signatures.length}`);
+  const sigNodes = (
+    xpath.select(
+      "//*[local-name(.)='Signature' and namespace-uri(.)='http://www.w3.org/2000/09/xmldsig#']",
+      doc as any,
+    ) as Element[]
+  ).filter((n) => {
+    const parent = (n.parentNode as Element | null)?.localName;
+    return parent === "Assertion" || parent === "Response";
+  });
+
+  if (sigNodes.length === 0) {
+    errors.push("no signature found on Assertion or Response");
   } else {
-    const sig = new SignedXml({ publicCert: opts.idpCertificate });
-    sig.loadSignature(signatures[0] as Node);
-    let valid = false;
-    try {
-      valid = sig.checkSignature(xml);
-    } catch (e) {
-      errors.push("signature check threw: " + (e as Error).message);
+    let anyValid = false;
+    let coversSubject = false;
+    for (const node of sigNodes) {
+      const sig = new SignedXml({ publicCert: opts.idpCertificate });
+      try {
+        sig.loadSignature(node);
+        if (sig.checkSignature(xml)) {
+          anyValid = true;
+          // Defend against XML signature-wrapping: the signed reference must be
+          // the very element (Assertion or Response) carrying the data we trust.
+          const uri = (
+            xpath.select(
+              "string(./*[local-name(.)='SignedInfo']/*[local-name(.)='Reference']/@URI)",
+              node as any,
+            ) as string
+          ).replace(/^#/, "");
+          if (uri && (uri === assertionId0 || uri === responseId0)) coversSubject = true;
+        }
+      } catch {
+        // ignore and try the next signature node
+      }
     }
-    if (!valid) errors.push("assertion signature is INVALID");
-
-    // Defend against XML signature-wrapping: the signed reference must be the
-    // assertion that actually carries the subject we are about to trust.
-    const ref = selectFirst(doc, "Assertion");
-    const refId = ref?.getAttribute("ID");
-    const signedUri = (
-      xpath.select(
-        "string(//*[local-name(.)='Assertion']/*[local-name(.)='Signature']" +
-          "/*[local-name(.)='SignedInfo']/*[local-name(.)='Reference']/@URI)",
-        doc as any,
-      ) as string
-    ).replace(/^#/, "");
-    if (refId && signedUri && refId !== signedUri) {
-      errors.push(`signed reference (${signedUri}) does not match assertion ID (${refId})`);
-    }
+    if (!anyValid) errors.push("signature is INVALID");
+    else if (!coversSubject)
+      errors.push("signature does not cover the Assertion/Response (possible wrapping)");
   }
 
   // --- (b) status ----------------------------------------------------------
@@ -297,8 +312,12 @@ export function verifyResponse(xml: string, opts: VerifyOptions): VerifyResult {
   const notOnOrAfter = conditionsEl?.getAttribute("NotOnOrAfter") || "";
 
   // --- (d) InResponseTo must match a request WE sent -----------------------
+  // No InResponseTo => IdP-initiated login. Only accept that when explicitly
+  // allowed; otherwise an SP-initiated flow must echo a request we issued.
   if (!inResponseTo) {
-    errors.push("missing InResponseTo");
+    if (!opts.allowIdpInitiated) {
+      errors.push("missing InResponseTo (set ALLOW_IDP_INITIATED=true to permit IdP-initiated login)");
+    }
   } else if (!opts.isRequestPending(inResponseTo)) {
     errors.push(`InResponseTo "${inResponseTo}" does not match any pending request (possible replay/forgery)`);
   }
