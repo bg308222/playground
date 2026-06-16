@@ -1,0 +1,23 @@
+{
+  "name": "saml",
+  "module": "src/server.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "bun run src/server.ts",
+    "dev": "bun --watch run src/server.ts",
+    "gen-certs": "openssl req -x509 -newkey rsa:2048 -keyout certs/idp-key.pem -out certs/idp-cert.pem -days 3650 -nodes -subj '/CN=demo-saml-idp/O=SAML Demo IdP'"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@xmldom/xmldom": "^0.9.10",
+    "hono": "^4.12.25",
+    "xml-crypto": "^6.1.2",
+    "xpath": "^0.0.34"
+  }
+}
